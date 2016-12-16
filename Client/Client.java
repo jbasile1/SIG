@@ -1,3 +1,79 @@
+package org.geotools.tutorial.quickstart;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Random;
+import javax.swing.JFrame;
+import javax.swing.Timer;
+import org.geotools.data.FeatureSource;
+import org.geotools.data.FileDataStore;
+import org.geotools.data.FileDataStoreFinder;
+import org.geotools.data.simple.SimpleFeatureCollection;
+import org.geotools.feature.FeatureCollections;
+import org.geotools.feature.FeatureIterator;
+import org.geotools.geometry.DirectPosition2D;
+import org.geotools.geometry.jts.ReferencedEnvelope;
+import org.geotools.graph.build.feature.FeatureGraphGenerator;
+import org.geotools.graph.build.line.LineStringGraphGenerator;
+import org.geotools.graph.path.DijkstraShortestPathFinder;
+import org.geotools.graph.path.Path;
+import org.geotools.graph.structure.Edge;
+import org.geotools.graph.structure.Graph;
+import org.geotools.graph.structure.Graphable;
+import org.geotools.graph.structure.Node;
+import org.geotools.graph.traverse.standard.DijkstraIterator;
+import org.geotools.graph.traverse.standard.DijkstraIterator.EdgeWeighter;
+import org.geotools.map.DefaultMapContext;
+import org.geotools.map.MapContext;
+import org.geotools.renderer.GTRenderer;
+import org.geotools.renderer.lite.StreamingRenderer;
+import org.geotools.swing.JMapPane;
+import org.geotools.swing.data.JFileDataStoreChooser;
+import org.geotools.swing.event.MapMouseAdapter;
+import org.geotools.swing.event.MapMouseEvent;
+import org.opengis.feature.Feature;
+import org.opengis.feature.simple.SimpleFeature;
+import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.referencing.crs.CoordinateReferenceSystem;
+
+import com.vividsolutions.jts.geom.Geometry;
+
+/**
+ * This is an example of extending JMapPane for specialized display.
+ * Here we display a shapefile and draw animated random walks on
+ * top of it.
+ * <p>
+ * When the application starts the user is prompted for a shapefile
+ * to display. Then, clicking on the map will create a random
+ * walk that starts from the mouse click position.
+ * <p>
+ * When a walk is display you can resize the pane and the walk will
+ * re-display, in animated form, properly scaled to the map.
+ *
+ * @author Michael Bedward
+ *
+ * @source $URL$
+ */
 public class Client  {
 
 
@@ -193,4 +269,3 @@ public class Client  {
         return walk;
     }
 }
-
