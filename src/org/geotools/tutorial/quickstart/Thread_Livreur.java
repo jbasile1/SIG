@@ -1,4 +1,6 @@
+package org.geotools.tutorial.quickstart;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -10,24 +12,36 @@ import org.geotools.graph.structure.Node;
 import org.geotools.map.Layer;
 import org.geotools.map.MapContent;
 
-public class Thread_Livreur extends Thread{
+public class Thread_Livreur extends Thread
+{
+	private int id;
+
+	private Color c;
+	private Serveur serveur;
+	
 	public Livreur livreur;
-	public ArrayList<Livreur> livreurs;
 	private Socket socketclient;
 	private Graph graph;
 	private static Layer couche_livreur;
 	private MapContent map;
-	public Thread_Livreur (String name,Graph graph,Socket socketclient , ArrayList<Livreur> livreurs){
+	private static int ID = 0;
+	
+	public Thread_Livreur (String name,Graph graph,Socket socketclient , Serveur serveur, Livreur livreur)
+	{
 	    super(name);
-	    this.map=map;
-
+	    this.serveur = serveur;
+	    
+	    this.livreur = livreur;
+	    
 	    this.socketclient=socketclient;
-	    this.livreurs=livreurs;
 	    this.graph=graph;
+	    this.id=ID;
+	    ID++;
 	  }
 
 	
-	  public void run(){
+	  public void run()
+	  {
 		  
 		 
 		  ObjectInputStream is=null;
@@ -68,10 +82,12 @@ public class Thread_Livreur extends Thread{
 					{
 						
 						Double longitude_client=(Double)obj;
+						obj=is.readObject();
 						Double latitude_client=(Double)obj;
-						 refresh_Livreur_layer(longitude_client,latitude_client,map);
-					
-						 System.out.println("Longitude "+longitude_client+"Latitude "+latitude_client);
+						refresh_Livreur_layer(longitude_client,latitude_client,map);
+						livreur.setPos(longitude_client, latitude_client);
+						//System.out.println("Longitude "+longitude_client+" Latitude "+latitude_client);
+						//serveur.routePainter.paintPos(longitude_client.doubleValue(), latitude_client.doubleValue(), livreur.getColor());
 					}
 					//si c une chair le client est arrive a destination il faut alors generer une nouvelle destination pour lui
 					else

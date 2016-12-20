@@ -13,7 +13,7 @@ import org.geotools.styling.Style;
 import org.geotools.swing.JMapFrame;
 import org.geotools.swing.data.JFileDataStoreChooser;;
 
-public class quickstart {
+public class Quickstart {
 	public static void main(String[] args) throws Exception{
 		File file = JFileDataStoreChooser.showOpenFile("shp",null);
 		if(file == null){
